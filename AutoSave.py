@@ -11,6 +11,12 @@ for i in range(1, 101):
 
     config = r'-l eng --psm 4'
 
+    text = pytesseract.image_to_string(image, config = config) # 검출된 텍스트
+
+    f = open("F:\\Users\\BRA\\Desktop\\Graduate\\Result\\" + si + ".txt", 'w', -1, "utf-8")
+    f.write(text)
+    f.close() # 텍스트파일로 저장
+
     from pytesseract import Output
     d = pytesseract.image_to_data(image, output_type=Output.DICT, config=config)
     n_boxes = len(d['level'])
@@ -19,11 +25,7 @@ for i in range(1, 101):
             (x, y, w, h) = (d['left'][i], d['top'][i], d['width'][i], d['height'][i])
             cv2.rectangle(image, (x, y), (x + w, y + h), (255, 255, 0), 2)  # 검출된 텍스트 영역에 박스
 
-    text = pytesseract.image_to_string(image, config = config) # 검출된 텍스트
-
-    f = open("F:\\Users\\BRA\\Desktop\\Graduate\\Result\\" + si + ".txt", 'w', -1, "utf-8")
-    f.write(text)
-    f.close() # 텍스트파일로 저장
+    
 
     cv2.imwrite("F:\\Users\\BRA\\Desktop\\Graduate\\Result\\" + si + ".jpg", image)
 
